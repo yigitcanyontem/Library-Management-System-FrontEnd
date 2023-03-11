@@ -13,7 +13,7 @@ export default function NavBar() {
                             aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
-                    <Link className="btn btn-outline-light" to={"/adduser"}>Add Book</Link>
+                    <Link className="btn btn-outline-light" to={"/addbook"}>Add Book</Link>
                     <Link className="btn btn-outline-light" to={"/addcustomer"}>Add Customer</Link>
                     <Link className="btn btn-outline-light" to={"/books"}>Books</Link>
                     <Link className="btn btn-outline-light" to={"/customers"}>Customers</Link>
