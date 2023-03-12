@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect,useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import AssignCustomer from "./AssignCustomer";
 
 export default function ViewUser() {
     const [books, setBooks] = useState([]);
@@ -73,7 +74,7 @@ export default function ViewUser() {
                     <Link className="btn btn-danger mx-2 " to={"/"} onClick={() => deleteBook(id)}>
                         Delete
                     </Link>
-
+                    <AssignCustomer/>
 
                 </div>
             </div>

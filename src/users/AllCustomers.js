@@ -24,6 +24,7 @@ export default function AllCustomers() {
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Email</th>
+                        <th>View Customer</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -33,6 +34,9 @@ export default function AllCustomers() {
                             <td>{customer.firstName}</td>
                             <td>{customer.lastName}</td>
                             <td>{customer.email}</td>
+                            <td>
+                                <Link className="btn btn-primary mx-2" to={`/customer/${customer.customerId}`}>View</Link>
+                            </td>
                         </tr>
                     ))}
                     </tbody>

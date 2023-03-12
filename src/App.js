@@ -10,6 +10,8 @@ import EditUser from "./users/EditUser";
  import AllCustomers from "./users/AllCustomers";
  import Welcome from "./users/MainPage";
  import AddBook from "./users/AddBook";
+ import ViewCustomer from "./users/ViewCustomer";
+ import AssignCustomer from "./users/AssignCustomer";
 
 function App() {
   return (
@@ -21,8 +23,8 @@ function App() {
                 <Route exact path={"/books"} element={<Home/>}></Route>
                 <Route exact path={"/library/books/id/:id"} element={<ViewUser/>}></Route>
                 <Route exact path={"/edituser/:id"} element={<EditUser/>}></Route>
-                <Route exact path={"/viewuser/:id"} element={<ViewUser />} />
                 <Route exact path={"/addbook"} element={<AddBook />} />
+                <Route exact path={"/customer/:id"} element={<ViewCustomer />} />
                 <Route exact path={"/customers"} element={<AllCustomers/>} />
                 <Route exact path={"/addcustomer"} element={<AddCustomer />} />
             </Routes>
