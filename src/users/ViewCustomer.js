@@ -87,7 +87,7 @@ export default function ViewCustomer() {
                         </div>
                     </div>
                     <br/>
-                    <Link className="btn btn-light mx-2 " to={"/"}>
+                    <Link className="btn btn-light mx-2 " to={"/customers"}>
                         Back to Home
                     </Link>
                     <Link className="btn btn-danger mx-2 " to={"/customers"} onClick={() => deleteBook(id)}>

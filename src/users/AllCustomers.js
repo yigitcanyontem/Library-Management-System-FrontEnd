@@ -1,9 +1,90 @@
-import React, {useEffect, useState} from 'react';
-import axios from "axios";
+import * as React from 'react';
+import PropTypes from 'prop-types';
+import { useTheme } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableFooter from '@mui/material/TableFooter';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import IconButton from '@mui/material/IconButton';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import LastPageIcon from '@mui/icons-material/LastPage';
+import {useEffect, useState} from "react";
 import {Link, useParams} from "react-router-dom";
+import axios from "axios";
+import {TableHead} from "@mui/material";
 
-export default function AllCustomers() {
-    const [customers,setCustomers] = useState([])
+function TablePaginationActions(props) {
+    const theme = useTheme();
+    const { count, page, rowsPerPage, onPageChange } = props;
+
+    const handleFirstPageButtonClick = (event) => {
+        onPageChange(event, 0);
+    };
+
+    const handleBackButtonClick = (event) => {
+        onPageChange(event, page - 1);
+    };
+
+    const handleNextButtonClick = (event) => {
+        onPageChange(event, page + 1);
+    };
+
+    const handleLastPageButtonClick = (event) => {
+        onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+    };
+
+    return (
+        <Box sx={{ flexShrink: 0, ml: 2.5 }}>
+            <IconButton
+                onClick={handleFirstPageButtonClick}
+                disabled={page === 0}
+                aria-label="first page"
+            >
+                {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+            </IconButton>
+            <IconButton
+                onClick={handleBackButtonClick}
+                disabled={page === 0}
+                aria-label="previous page"
+            >
+                {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+            </IconButton>
+            <IconButton
+                onClick={handleNextButtonClick}
+                disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+                aria-label="next page"
+            >
+                {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+            </IconButton>
+            <IconButton
+                onClick={handleLastPageButtonClick}
+                disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+                aria-label="last page"
+            >
+                {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+            </IconButton>
+        </Box>
+    );
+}
+
+TablePaginationActions.propTypes = {
+    count: PropTypes.number.isRequired,
+    onPageChange: PropTypes.func.isRequired,
+    page: PropTypes.number.isRequired,
+    rowsPerPage: PropTypes.number.isRequired,
+};
+
+
+
+export default function CustomPaginationActionsTable() {
+    const [rows,setCustomers] = useState([])
 
     useEffect(() => {
         loadUsers();
@@ -14,35 +95,78 @@ export default function AllCustomers() {
         setCustomers(result.data)
     }
 
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+    // Avoid a layout jump when reaching the last page with empty rows.
+    const emptyRows =
+        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
+
     return (
-        <div className={"container"}>
-            <div className={"py-4"}>
-                <table className="table table-dark table-striped table-bordered">
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Email</th>
-                        <th>View Customer</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {customers.map((customer,index)=>(
-                        <tr>
-                            <td>{customer.customerId}</td>
-                            <td>{customer.firstName}</td>
-                            <td>{customer.lastName}</td>
-                            <td>{customer.email}</td>
-                            <td>
+        <TableContainer component={Paper} >
+            <Table sx={{ minWidth: 500 }} aria-label="custom pagination table" className="table table-dark table-striped table-bordered" >
+                <TableHead>
+                    <TableRow>
+                        <TableCell align="center"><div className={"text-light"}>ID</div></TableCell>
+                        <TableCell align="center"><div className={"text-light"}>First Name</div></TableCell>
+                        <TableCell align="center"><div className={"text-light"}>Last Name</div></TableCell>
+                        <TableCell align="center"><div className={"text-light"}>Email</div></TableCell>
+                        <TableCell align="center"><div className={"text-light"}>View Customer</div></TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {(rowsPerPage > 0
+                            ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            : rows
+                    ).map((customer) => (
+                        <TableRow key={customer.customerId}>
+
+                            <TableCell align="center" component="th" scope="row"><div className={"text-light"}>{customer.customerId}</div></TableCell>
+                            <TableCell align="center" component="th" scope="row"><div className={"text-light"}>{customer.firstName}</div></TableCell>
+                            <TableCell align="center" component="th" scope="row"><div className={"text-light"}>{customer.lastName}</div></TableCell>
+                            <TableCell align="center" component="th" scope="row"><div className={"text-light"}>{customer.email}</div></TableCell>
+                            <TableCell align="center" component="th" scope="row">
                                 <Link className="btn btn-primary mx-2" to={`/customer/${customer.customerId}`}>View</Link>
-                            </td>
-                        </tr>
+                            </TableCell>
+                        </TableRow>
                     ))}
-                    </tbody>
-                </table>
-            </div>
-        </div>
+
+                    {emptyRows > 0 && (
+                        <TableRow style={{ height: 53 * emptyRows }}>
+                            <TableCell colSpan={6} />
+                        </TableRow>
+                    )}
+                </TableBody>
+                <TableFooter>
+                    <TableRow>
+                        <TablePagination
+                            rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                            colSpan={9}
+                            count={rows.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            SelectProps={{
+                                inputProps: {
+                                    'aria-label': 'rows per page',
+                                },
+                                native: true,
+                            }}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                            ActionsComponent={TablePaginationActions}
+                        />
+                    </TableRow>
+                </TableFooter>
+            </Table>
+        </TableContainer>
     );
 }
-

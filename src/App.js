@@ -3,7 +3,6 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import NavBar from "./layout/NavBar";
 import Home from "./pages/Home";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
-import AddUser from "./users/AddUser";
 import EditUser from "./users/EditUser";
  import ViewUser from "./users/ViewUser";
  import AddCustomer from "./users/AddCustomer";
@@ -11,7 +10,7 @@ import EditUser from "./users/EditUser";
  import Welcome from "./users/MainPage";
  import AddBook from "./users/AddBook";
  import ViewCustomer from "./users/ViewCustomer";
- import AssignCustomer from "./users/AssignCustomer";
+
 
 function App() {
   return (

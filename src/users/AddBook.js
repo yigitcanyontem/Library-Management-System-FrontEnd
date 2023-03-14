@@ -50,7 +50,7 @@ function AddBook() {
         <div className={"container pt-5"}>
             <div className={"row"}>
                 <div className={"col-md-6 offset-md-3 border rounded p-4 mt-2 shadow "}>
-                    <h2 className={"display-5 text-center m-4"}>Register User</h2>
+                    <h2 className={"display-5 text-center m-4"}>Add Book</h2>
                     <form onSubmit={(e)=>onSubmit(e)}>
                         <div className="mb-3">
                             <label htmlFor="ISBN" className="form-label">ISBN</label>
