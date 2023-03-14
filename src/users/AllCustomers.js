@@ -16,7 +16,7 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import {useEffect, useState} from "react";
-import {Link, useParams} from "react-router-dom";
+import {Link} from "react-router-dom";
 import axios from "axios";
 import {TableHead} from "@mui/material";
 
@@ -84,6 +84,7 @@ TablePaginationActions.propTypes = {
 
 
 export default function CustomPaginationActionsTable() {
+    const [searchedVal, setSearchedVal] = useState("");
     const [rows,setCustomers] = useState([])
 
     useEffect(() => {
@@ -96,7 +97,7 @@ export default function CustomPaginationActionsTable() {
     }
 
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [rowsPerPage, setRowsPerPage] = React.useState(25);
 
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
@@ -149,7 +150,7 @@ export default function CustomPaginationActionsTable() {
                 <TableFooter>
                     <TableRow>
                         <TablePagination
-                            rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                            rowsPerPageOptions={[25, 50, 100,{ label: 'All', value: -1 }]}
                             colSpan={9}
                             count={rows.length}
                             rowsPerPage={rowsPerPage}
